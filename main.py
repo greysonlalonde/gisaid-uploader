@@ -1,56 +1,46 @@
 import pandas as pd
 import json
-import requests
+from Bio import SeqIO
+import requests, secrets, hashlib, json
+from itertools import islice
 
 
-def handles(filename, csv_file, params):
-    global proxy
+
+class GiSaid(object):
+    def __init__(self):
+        self = None
     
-    data = (pd.read_csv(csv_file).query("Final_Decision == 'yes' \
-             & sequence == sequence").apply(lambda x: x.to_json(), axis=1))
-    try:
-        with open(filename, "r") as file:
-            d_auth = json.loads(file.read())
-    except FileNotFoundError:
-        print('File not found')
+    def split_every(self,n, iterable):
+        iterable = iter(iterable)
+        yield from iter(lambda: list(islice(iterable,n)), [])
     
-    params = {"cmd": "state/session/logon", "api":{"version": 1},
-              "ctx":"CoV", "client_id":d_auth["client_id"],
-              "auth_token":d_auth["auth_token"]}
-    
-    
-    
-   
-    body = json.dumps(params)
-    try:
-        r = requests.post(get_service_url(), data=body, proxies=proxy)
-        time.sleep(0.1)
-    except requests.exceptions.ProxyError:
-        if debug:
-            raise
-        else:
-            return {"rc": "proxy_error"}
-    except KeyboardInterrupt:
-        raise
-    except:
-        if debug:
-            raise
-        else:
-            return {"rc": "connection_error"}
-    count = 0    
-    for i in data:
-        body2 = {"cmd": "data/hcov-19/upload",
-                         "api": {"version": 1},
-                         "sid": r.json()['sid'],
-                         "ctx": "CoV",
-                         "data": i,
-                         "submitter": json.dumps(json.loads(i)['analyst'])}
+    def login(self, auth_file, csv_file, fasta_file):
+        with open(auth_file, "r") as authfile:
+            self.auth = json.loads(authfile.read())
+       
+            
+        self.seq = {k.id:str(k.seq) for k in SeqIO.parse(fasta_file, 'fasta')}    
+        data = pd.read_csv(csv_file).apply(lambda x: x.to_dict(), axis=1)
+        {i.update({'covv_sequence':self.seq[k] for k in i.values() if k in self.seq}) for i in data}
+        self.data = self.split_every(500, data)
         
-        r = requests.post(get_service_url(), data=body2, proxies=proxy)
         
-    body3 =  {"cmd": "state/session/logoff",
-                "api": {"version": 1},
-                "ctx": 'CoV',
-                "sid": r.json()['sid']}
-    r = request.post(get_service_url(),data=body3, proxies=proxy)
-    return count
+        
+    def upload(self):
+        count = 0
+        s = requests.Session()
+        urls = "https://gpsapi.epicov.org/epi3/gps_api"
+        resp1 = (s.post(url=urls,
+                data=json.dumps({"cmd": "state/session/logon",
+                 "api": {"version": 1},
+                 "ctx": 'CoV',
+                 "client_id":self.auth["client_id"],
+                 "auth_token":self.auth["auth_token"]}))).json()
+        
+        time.sleep(0.5) 
+        resp2 = [s.post(url=urls, data=json.dumps({"cmd": "data/hcov-19/upload",
+         "sid": resp1["sid"],
+         "data": x[0],
+         "submitter": x[0]["submitter"]})).json() for x in [i for i in self.data]]
+        resp3 = s.post(url=urls, data=json.dumps({"cmd": "state/session/logoff"}))
+        print(resp3)
