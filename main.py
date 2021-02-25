@@ -3,47 +3,47 @@ from helpers import *
 
 
 class GiSaid:
-    """
+    '''
     Class for uploading & downloading to GISAID.
     Provides a route for automation or back-end integration.
-
+    
     Parameters
     ----------
-    args:
+    args: 
         csv_path, fasta_path, jsoncred_path or authentication info
-
-
+    
+    
     Returns
     ----------
-    response:
+    response: 
         output from request
-
-
+      
+    
     Examples
     ----------
     >>> gs = GiSaid('authenticate', client_id, username, pswd, filename)
     Authentication successful
-    """
-
+    '''
     def __init__(self, *args):
-        if args[0] == "authenticate":
-            self.data = read_files(args)
+        if args[0] == 'authenticate':
+            self.data = authenticate(args)
+            
         else:
             self.data = read_files(args[0], args[1], args[2])
 
     def upload(self):
-        """
+        '''
         Uploading method
-
+        
         Parameters
         ----------
-        args:
+        args: 
             csv_path, fasta_path, jsoncred_path
 
 
         Returns
         ----------
-        response:
+        response: 
             output from request
 
 
@@ -52,7 +52,7 @@ class GiSaid:
         >>> gs = GiSaid(csv_file, fasta_file, jsoncred_file)
         >>> gs.upload()
         Upload successful
-        """
+        '''
         s = requests.Session()
         urls = "https://gpsapi.epicov.org/epi3/gps_api"
         resp1 = (
