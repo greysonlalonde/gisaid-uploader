@@ -35,10 +35,8 @@ def request_authentication_token(client_id, user, pswd, file):
                 }
             )
         print("Auth file written")
-
     else:
         print(f'Auth failed: {resp["rc"]}')
-
     return resp["rc"]
 
 
@@ -55,27 +53,20 @@ def split_every(n, iterable):
 
 def read_files(*args):
     files = [".json", ".csv", ".fasta", ".fna", ".ffn", ".faa", ".frn"]
-    for i,x in enumerate(args):
+    for i, x in enumerate(args):
         if x.lower().endswith(files[0]):
             with open(x, "r") as authfile:
                 auth = json.loads(authfile.read())
-              
-              
         elif x.lower().endswith((files[2])):
             seq = {k.id: str(k.seq) for k in SeqIO.parse(x, "fasta")}
-
-              
         elif x.lower().endswith(files[1]):
             metadata = pd.read_csv(x).apply(lambda x: x.to_dict(), axis=1)
-            {i.update({"covv_sequence": seq[k] for k in i.values() if k in seq}) for i in metadata}
-
-        
-
+            {
+                i.update({"covv_sequence": seq[k] for k in i.values() if k in seq})
+                for i in metadata
+            }
         else:
             print("Invalid file")
-
-    
     return [split_every(500, metadata), auth]
-
 
 
