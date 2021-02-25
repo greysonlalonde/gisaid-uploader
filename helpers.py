@@ -4,17 +4,16 @@ import pandas as pd
 from Bio import SeqIO
 
 
-def auth(li):
+def authenticate(args):
     """
     args = 'client_id, user, password, file'
     """
+    li = list(args)
     password = li[2].encode("utf8")
 
     salt = secrets.token_urlsafe(64)
     hashed = (
-        salt
-        + "/"
-        + sha512_hexdigest((salt + sha512_hexdigest(password)).encode("ascii"))
+        salt + "/" + sha512_hexdigest((salt + sha512_hexdigest(password)).encode("ascii"))
     )
 
     resp = requests.post(
@@ -38,10 +37,10 @@ def auth(li):
                     "client_token": resp["auth_token"],
                 }
             )
-    else:
-        pass
-    return resp
 
+    else:
+        resp = f'Authentication failed: {resp.json()["rc"]}'
+    return print(resp)
 
 def sha512_hexdigest(inp):
     hasher = hashlib.sha512()
@@ -54,29 +53,26 @@ def split_every(n, iterable):
     yield from iter(lambda: list(islice(iterable, n)), [])
 
 
-def read_files(*args):
+def read_files(args):
     options = [".json", ".csv", ".fasta", ".fna", ".ffn", ".faa", ".frn"]
-    try:
-        for i, x in enumerate(args):
-            if x.lower().endswith(options[0]):
-                with open(x, "r") as authfile:
-                    authf = json.loads(authfile.read())
-            elif x.lower().endswith((options[2])):
-                seq = {k.id: str(k.seq) for k in SeqIO.parse(x, "fasta")}
-            elif x.lower().endswith(options[1]):
-                metadata = pd.read_csv(x).apply(lambda x: x.to_dict(), axis=1)
-            elif x.lower() == "authenticate":
-                li = list(args)
-                r = auth(li)
-                if r.json()["rc"] == "ok":
-                    print("Authentication successful")
-                else:
-                    print(f'Authentication failed: {r.json()["rc"]}')
-        {
-            i.update({"covv_sequence": seq[k] for k in i.values() if k in seq})
-            for i in metadata
-        }
-        d = [split_every(500, metadata), authf]
-    except IndexError as e:
-        d = e
+ 
+    for x in args:
+        if x.lower().endswith(options[0]):
+            with open(x, "r") as authfile:
+                authf = json.loads(authfile.read())
+
+
+        elif x.lower().endswith((options[2])):
+            seq = {k.id: str(k.seq) for k in SeqIO.parse(x, "fasta")}
+
+
+        elif x.lower().endswith(options[1]):
+            metadata = pd.read_csv(x).apply(lambda x: x.to_dict(), axis=1)
+            {i.update({"covv_sequence": seq[k] for k in i.values() if k in seq}) for i in metadata}
+
+        else:
+            pass
+
+        
+    d = [split_every(500, metadata), authf]                             
     return d
