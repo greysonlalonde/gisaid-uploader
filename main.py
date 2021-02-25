@@ -3,8 +3,8 @@ from helpers import *
 
 
 class GiSaid:
-    def __init__(self, *args):
-        self.data = read_files(args)
+    def __init__(self, auth, csv, fasta):
+        self.data = read_files(auth, csv, fasta)
 
     def upload(self):
         s = requests.Session()
