@@ -2,12 +2,13 @@ import requests, secrets, hashlib, json
 from helpers import *
 
 
-class GiSaid(object):
-    def __init__(self, auth_file, csv_file, fasta_file):
-        self.data = read_files(auth_file, csv_file, fasta_file)
+class GiSaid:
+    def __init__(self, *args):
+        self.data =  read_files(args[0], args[1], args[2])
+
 
     def upload(self):
-
+       
         count = 0
         s = requests.Session()
         urls = "https://gpsapi.epicov.org/epi3/gps_api"
