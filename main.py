@@ -3,8 +3,12 @@ from helpers import *
 
 
 class GiSaid:
-    def __init__(self, auth, csv, fasta):
-        self.data = read_files(auth, csv, fasta)
+    def __init__(self, *args):
+        if args[0] == 'authenticate':
+            self.data = read_files(args)
+            
+        else:
+            self.data = read_files(args[0], args[1], args[2])
 
     def upload(self):
         s = requests.Session()
@@ -40,4 +44,4 @@ class GiSaid:
             for x in [i for i in self.data[0]]
         ]
         resp3 = s.post(url=urls, data=json.dumps({"cmd": "state/session/logoff"}))
-        print(resp3)
+        print(resp3.json())
