@@ -1,15 +1,12 @@
-import requests, secrets, hashlib, json
+import requests, secrets, json
 from helpers import *
 
 
 class GiSaid:
     def __init__(self, *args):
-        self.data =  read_files(args[0], args[1], args[2])
-
+        self.data = read_files(args)
 
     def upload(self):
-       
-        count = 0
         s = requests.Session()
         urls = "https://gpsapi.epicov.org/epi3/gps_api"
         resp1 = (
@@ -20,8 +17,8 @@ class GiSaid:
                         "cmd": "state/session/logon",
                         "api": {"version": 1},
                         "ctx": "CoV",
-                        "client_id": self.auth["client_id"],
-                        "auth_token": self.auth["auth_token"],
+                        "client_id": self.data[1]["client_id"],
+                        "auth_token": self.data[1]["auth_token"],
                     }
                 ),
             )
@@ -40,7 +37,7 @@ class GiSaid:
                     }
                 ),
             ).json()
-            for x in [i for i in self.data]
+            for x in [i for i in self.data[0]]
         ]
         resp3 = s.post(url=urls, data=json.dumps({"cmd": "state/session/logoff"}))
         print(resp3)
