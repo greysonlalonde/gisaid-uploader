@@ -4,12 +4,14 @@ import pandas as pd
 from Bio import SeqIO
 
 
-def authenticate(args):
+def authenticate(kwargs):
     """
-    args = 'client_id, user, password, file'
+    kwargs = 'authenticate=True,password=password,
+    client_id=client_id, user=user,file=file'
     """
-    li = list(args)
-    password = li[2].encode("utf8")
+    
+
+    password = kwargs['password'].encode("utf8")
 
     salt = secrets.token_urlsafe(64)
     hashed = (
@@ -22,18 +24,18 @@ def authenticate(args):
             "cmd": "state/auth/get_token",
             "api": {"version": 1},
             "ctx": "CoV",
-            "client_id": li[0],
-            "login": li[1],
+            "client_id": kwargs['client_id'],
+            "login": kwargs['user'],
             "hash": hashed,
         },
     )
     if resp.json()["rc"] == "ok":
-        with open(li[3], "w") as f:
+        with open(kwargs['file'], "w") as f:
             json.dump(
                 {
                     "api": {"version": 1},
                     "ctx": "CoV",
-                    "client_id": li[1],
+                    "client_id": kwargs['client_id'],
                     "client_token": resp["auth_token"],
                 }
             )
