@@ -2,7 +2,7 @@ import requests, secrets, json
 from helpers import *
 
 
-class GiSaid:
+class GiSaid(object):
     '''
     Class for uploading & downloading to GISAID.
     Provides a route for automation or back-end integration.
@@ -29,7 +29,7 @@ class GiSaid:
             self.data = authenticate(args)
             
         else:
-            self.data = read_files(args[0], args[1], args[2])
+            self.data = read_files(args)
 
     def upload(self):
         '''
@@ -86,4 +86,4 @@ class GiSaid:
             for x in [i for i in self.data[0]]
         ]
         resp3 = s.post(url=urls, data=json.dumps({"cmd": "state/session/logoff"}))
-        print(resp3.json())
+        print(resp2.json())
