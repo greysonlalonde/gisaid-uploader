@@ -21,16 +21,27 @@ class GiSaid(object):
     
     Examples
     ----------
-    >>> gs = GiSaid('authenticate', client_id, username, pswd, filename)
+    >>> gs = GiSaid(authenticate=True, client_id=client_id,
+    >>>              username=username, password=password, filename=filename)
     Authentication successful
     '''
-    def __init__(self, *args):
-        if args[0] == 'authenticate':
-            self.data = authenticate(args)
+  
+    def __init__(self, *args, **kwargs):
+        if not kwargs:
+            self.kwargs = None
+            self.args = args
+            self.data = read_files(self.args)
+            
             
         else:
-            self.data = read_files(args)
-
+            if kwargs['authenticate'] == True:
+                self.kwargs = kwargs
+                self.args = None
+                self.data =  authenticate(self.kwargs)
+            else:
+                print('Error')
+            
+    
     def upload(self):
         '''
         Uploading method
