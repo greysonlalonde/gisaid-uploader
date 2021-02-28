@@ -1,53 +1,8 @@
 from itertools import islice
-import json, hashlib, requests, time, secrets
+import json, requests, time
 import pandas as pd
 from Bio import SeqIO
 
-
-def authenticate(kwargs):
-    """
-    kwargs = 'authenticate=True,password=password,
-    client_id=client_id, user=user,file=file'
-    """
-    
-
-    password = kwargs['password'].encode("utf8")
-
-    salt = secrets.token_urlsafe(64)
-    hashed = (
-        salt + "/" + sha512_hexdigest((salt + sha512_hexdigest(password)).encode("ascii"))
-    )
-
-    resp = requests.post(
-        url="https://gpsapi.epicov.org/epi3/gps_api",
-        data={
-            "cmd": "state/auth/get_token",
-            "api": {"version": 1},
-            "ctx": "CoV",
-            "client_id": kwargs['client_id'],
-            "login": kwargs['user'],
-            "hash": hashed,
-        },
-    )
-    if resp.json()["rc"] == "ok":
-        with open(kwargs['file'], "w") as f:
-            json.dump(
-                {
-                    "api": {"version": 1},
-                    "ctx": "CoV",
-                    "client_id": kwargs['client_id'],
-                    "client_token": resp["auth_token"],
-                }
-            )
-
-    else:
-        resp = f'Authentication failed: {resp.json()["rc"]}'
-    return print(resp)
-
-def sha512_hexdigest(inp):
-    hasher = hashlib.sha512()
-    hasher.update(inp)
-    return hasher.hexdigest()
 
 
 def split_every(n, iterable):
