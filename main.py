@@ -1,6 +1,6 @@
 import requests, secrets, json
 from helpers import *
-From auth import *
+from auth import *
 
 class GiSaid(object):
     '''
