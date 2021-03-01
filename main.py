@@ -1,8 +1,8 @@
 import requests, secrets, json
 from helpers import *
+from auth import *
 
-
-class GiSaid:
+class GiSaid(object):
     '''
     Class for uploading & downloading to GISAID.
     Provides a route for automation or back-end integration.
@@ -21,15 +21,26 @@ class GiSaid:
     
     Examples
     ----------
-    >>> gs = GiSaid('authenticate', client_id, username, pswd, filename)
+    >>> gs = GiSaid(authenticate=True, client_id=client_id,
+    >>>              username=username, password=password, filename=filename)
     Authentication successful
     '''
-    def __init__(self, *args):
-        if args[0] == 'authenticate':
-            self.data = authenticate(args)
+  
+    def __init__(self, *args, **kwargs):
+        if not kwargs:
+            self.kwargs = None
+            self.args = args
+            self.data = read_files(self.args)
+            
             
         else:
-            self.data = read_files(args)
+            if kwargs['authenticate'] == True:
+                self.kwargs = kwargs
+                self.args = None
+                self.data =  authenticate(self.kwargs)
+            else:
+                print('Error')
+
 
     def upload(self):
         '''
@@ -86,4 +97,6 @@ class GiSaid:
             for x in [i for i in self.data[0]]
         ]
         resp3 = s.post(url=urls, data=json.dumps({"cmd": "state/session/logoff"}))
+
         print([i for i in resp2])
+
