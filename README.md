@@ -1,6 +1,9 @@
 # gisaid-uploader
  Simplified uploads to GISAID
 
+1. Make a GISAID account
+
+2. Email GISAID & reuqest a client ID
 
 Authenticate once: 
 
