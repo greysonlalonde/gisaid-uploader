@@ -3,7 +3,7 @@
 
 1. Make a GISAID account
 
-2. Email GISAID & reuqest a client ID
+2. Email GISAID & request a client ID
 
 Authenticate once: 
 
