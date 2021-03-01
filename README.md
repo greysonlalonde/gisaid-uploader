@@ -11,7 +11,7 @@ Authenticate once:
     >>> import gisaid as gs
     >>> gs.GiSaid(authenticate=True, client_id='foo',
     >>>              username='bar', password='foobar', filename='authfile.json')
-    Authentication successful
+    "Authentication successful"
 ```
 
 Usage:
