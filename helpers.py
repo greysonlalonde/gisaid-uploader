@@ -12,15 +12,18 @@ def split_every(n, iterable):
 
 def check_file(fname):
     d = {}
-    for i in fname[0]:
-        if re.search("\.csv$", i, flags=re.IGNORECASE):
-            d["csv"] = i
-        elif re.search("\.json$", i, flags=re.IGNORECASE):
-            d["cred"] = i
-        elif re.search("\.fa$", i, flags=re.IGNORECASE):
-            d["fa"] = i
-        else:
-            d['error'] = i
+    try:
+        for i in fname[0]:
+            if re.search("\.csv$", i, flags=re.IGNORECASE):
+                d["csv"] = i
+            elif re.search("\.json$", i, flags=re.IGNORECASE):
+                d["cred"] = i
+            elif re.search("\.fa$", i, flags=re.IGNORECASE):
+                d["fa"] = i
+            else:
+                d['error'] = i
+    except IndexError:
+        d = print("File Error")
     return d
 
 
@@ -40,6 +43,9 @@ def read_files(args):
         d = [split_every(500, metadata), authf]
     except KeyError:
         d = print(f'{data["error"]} not found')
+    
+    except TypeError:
+        d = print('file not found')
     
 
     
