@@ -1,4 +1,7 @@
 import json, hashlib, requests, secrets
+from configparser import ConfigParser
+
+config = ConfigParser()
 
 
 def authenticate(kwargs):
@@ -36,7 +39,13 @@ def authenticate(kwargs):
                     "client_token": resp["auth_token"],
                 }
             )
+        config.read('config.py')
+        config.add_section('FILES')
+        config.set('FILES', 'AUTH_FILE', kwargs['file'])
 
+        with open('config.py', 'w') as f:
+            config.write(f)
+            
     else:
         resp = f'Authentication failed: {resp.json()["rc"]}'
     return print(resp)
