@@ -96,4 +96,4 @@ class GiSaid(object):
         ]
         resp3 = s.post(url=urls, data=json.dumps({"cmd": "state/session/logoff"}))
 
-        print([i for i in resp2])
+        print([i for i in resp2][0]['validation'])
