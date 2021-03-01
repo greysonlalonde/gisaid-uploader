@@ -5,6 +5,11 @@ from Bio import SeqIO
 import re
 
 
+config = ConfigParser()
+config.read('config.py')
+auth_path = config.get('FILES', 'AUTH_FILE')
+
+
 def split_every(n, iterable):
     iterable = iter(iterable)
     yield from iter(lambda: list(islice(iterable, n)), [])
@@ -16,8 +21,6 @@ def check_file(fname):
         for i in fname[0]:
             if re.search("\.csv$", i, flags=re.IGNORECASE):
                 d["csv"] = i
-            elif re.search("\.json$", i, flags=re.IGNORECASE):
-                d["cred"] = i
             elif re.search("\.fa$", i, flags=re.IGNORECASE):
                 d["fa"] = i
             else:
@@ -30,7 +33,7 @@ def check_file(fname):
 def read_files(args):
     data = check_file(args)
     try:
-        with open(data["cred"], "r") as authfile:
+        with open(auth_path, "r") as authfile:
             authf = json.loads(authfile.read())
         seq = {k.id: str(k.seq) for k in SeqIO.parse(data["fa"], "fasta")}
 
