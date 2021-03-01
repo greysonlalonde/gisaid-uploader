@@ -18,7 +18,7 @@ Usage:
 
 ```python
     >>> import gisaid as gs
-    >>> files = ["authfile.json", "upload.csv", "fasta.fa"]
+    >>> files = ["upload.csv", "fasta.fa"]
     >>> x = gs.GiSaid(files)
     >>> x.upload()
     "Upload successful"
