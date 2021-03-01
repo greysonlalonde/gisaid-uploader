@@ -1,7 +1,7 @@
 # gisaid-uploader
  Simplified uploads to GISAID
 
-1. Make a GISAID(https://www.gisaid.org/) account
+1. Make a [GISAID](https://www.gisaid.org/) account
 
 2. Email GISAID & request a client ID
 
