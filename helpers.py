@@ -1,4 +1,3 @@
-from itertools import islice
 import json, requests, time
 from configparser import ConfigParser
 import pandas as pd
