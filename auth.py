@@ -4,6 +4,11 @@ from configparser import ConfigParser
 config = ConfigParser()
 
 
+def authfile():
+    with open(auth_path, "r") as authfile:
+        authf = json.loads(authfile.read())
+    return authf
+
 def authenticate(kwargs):
     """
     kwargs = 'authenticate=True,password=password,
