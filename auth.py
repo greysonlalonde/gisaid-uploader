@@ -1,8 +1,10 @@
 import json, hashlib, requests, secrets
 from configparser import ConfigParser
 
-config = ConfigParser()
 
+config = ConfigParser()
+config.read('config.py')
+auth_path = config.get('FILES', 'AUTH_FILE')
 
 def authfile():
     with open(auth_path, "r") as authfile:
