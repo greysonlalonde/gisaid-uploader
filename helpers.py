@@ -6,22 +6,13 @@ from Bio import SeqIO
 import re
 
 
-config = ConfigParser()
-config.read('config.py')
-auth_path = config.get('FILES', 'AUTH_FILE')
-
-
-def authfile():
-    with open(auth_path, "r") as authfile:
-        authf = json.loads(authfile.read())
-    return authf
 
 
 
 def logfile(*args):
     if args[1]['rc'] != 'ok':
-        with open('logfile.txt', 'a+') as f:
-            line = str('\n'+ f'{args[0]}: {args[1]["validation"]}')
+        with open('logfile.csv', 'a+') as f:
+            line = str('\n'+ f'{args[0]}, {args[1]["validation"]}')
             f.write(line)
     else:
         pass
@@ -48,7 +39,6 @@ def check_file(fname):
 
 def read_files(args):
     data = check_file(args)
-    print(data)
     if data['collated'] == True:
 
         x = (pd.read_csv(data['csv'], index_col=0))
