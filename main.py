@@ -84,7 +84,7 @@ class GiSaid(object):
         )
 
         time.sleep(0.1)
-        resp2 = [log(x['covv_virus_name'],
+        resp2 = [logfile(x['covv_virus_name'],
             s.post(
                 url=urls,
                 data=json.dumps(
