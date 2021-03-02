@@ -126,3 +126,4 @@ dmypy.json
 *.ipynb
 cov.fa
 config.py
+logfile.csv
