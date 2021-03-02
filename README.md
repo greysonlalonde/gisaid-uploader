@@ -14,7 +14,6 @@ Authenticate once:
     "Authentication successful"
 ```
 
-#h3 Usage
 
 CSV + fasta file:
 
@@ -25,6 +24,7 @@ CSV + fasta file:
     >>> x.upload()
     "Upload successful"
 ```
+
 
 Collated CSV:
 
