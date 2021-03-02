@@ -1,5 +1,4 @@
-import requests, secrets, json
-from configparser import ConfigParser
+import requests, json
 from helpers import *
 from auth import *
 
@@ -34,6 +33,7 @@ class GiSaid(object):
             self.kwargs = None
             self.args = args
             self.data = read_files(self.args)
+            self.authf = authfile()
         else:
             if kwargs["authenticate"] == True:
                 self.kwargs = kwargs
@@ -64,6 +64,8 @@ class GiSaid(object):
         >>> gs.upload()
         Upload successful
         """
+        
+        
         s = requests.Session()
         urls = "https://gpsapi.epicov.org/epi3/gps_api"
         resp1 = (
@@ -74,28 +76,26 @@ class GiSaid(object):
                         "cmd": "state/session/logon",
                         "api": {"version": 1},
                         "ctx": "CoV",
-                        "client_id": self.data[1]["client_id"],
-                        "auth_token": self.data[1]["auth_token"],
+                        "client_id": self.authf["client_id"],
+                        "auth_token": self.authf["auth_token"],
                     }
                 ),
             )
-        ).json()
+        )
 
-        time.sleep(0.5)
-        resp2 = [
+        time.sleep(0.1)
+        resp2 = [log(x['covv_virus_name'],
             s.post(
                 url=urls,
                 data=json.dumps(
                     {
                         "cmd": "data/hcov-19/upload",
-                        "sid": resp1["sid"],
-                        "data": x[0],
-                        "submitter": x[0]["submitter"],
+                        "sid": resp1.json()["sid"],
+                        "data": x,
+                        "submitter": x["submitter"],
                     }
                 ),
-            ).json()
-            for x in [i for i in self.data[0]]
-        ]
-        resp3 = s.post(url=urls, data=json.dumps({"cmd": "state/session/logoff"}))
+            ).json())
+            for x in self.data]
 
-        print([i for i in resp2][0]['validation'])
+        resp3 = s.post(url=urls, data=json.dumps({"cmd": "state/session/logoff"}))
