@@ -14,7 +14,7 @@ Authenticate once:
     "Authentication successful"
 ```
 
-Usage
+#h3 Usage
 
 CSV + fasta file:
 
