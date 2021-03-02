@@ -14,11 +14,23 @@ Authenticate once:
     "Authentication successful"
 ```
 
-Usage:
+Usage
+
+CSV + fasta file:
 
 ```python
     >>> import gisaid as gs
     >>> files = ["upload.csv", "fasta.fa"]
+    >>> x = gs.GiSaid(files)
+    >>> x.upload()
+    "Upload successful"
+```
+
+Collated CSV:
+
+```python
+    >>> import gisaid as gs
+    >>> files = ["collated", "upload.csv"]
     >>> x = gs.GiSaid(files)
     >>> x.upload()
     "Upload successful"
