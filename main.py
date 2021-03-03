@@ -99,3 +99,15 @@ class GiSaid(object):
             for x in self.data]
 
         resp3 = s.post(url=urls, data=json.dumps({"cmd": "state/session/logoff"}))
+        count = 0
+        bad = 0
+        with open('logfile.csv') as f:
+            for line in f:
+                if 'success' in line:
+                    count += 1
+                else:
+                    bad += 1
+        print(f'{bad} failed uploads')
+        print(f'{count} successful uploads')
+                
+                
