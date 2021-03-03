@@ -14,7 +14,9 @@ def logfile(*args):
             line = str('\n'+ f'{args[0]}, {args[1]["validation"]}')
             f.write(line)
     else:
-        pass
+        with open('logfile.csv', 'a+') as f:
+            line2 = '\n' + 'success'
+            f.write(line2)
     
     
 def check_file(fname):
