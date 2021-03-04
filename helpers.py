@@ -15,7 +15,7 @@ def logfile(*args):
             f.write(line)
     else:
         with open('logfile.csv', 'a+') as f:
-            line2 = '\n' + 'success'
+            line = str('\n'+ f'{args[0]}, success')
             f.write(line2)
     
     
