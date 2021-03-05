@@ -34,13 +34,19 @@ class GiSaid(object):
             self.args = args
             self.data = read_files(self.args)
             self.authf = authfile()
+        
+        elif kwargs["authenticate"] == True:
+            self.kwargs = kwargs
+            self.args = None
+            self.data = authenticate(self.kwargs)
+        
+        elif kwargs['collate_fasta'] == True:
+            self.kwargs = kwargs
+            self.args = args
+            self.data = collate_fa(self)
         else:
-            if kwargs["authenticate"] == True:
-                self.kwargs = kwargs
-                self.args = None
-                self.data = authenticate(self.kwargs)
-            else:
-                print("Error")
+            print('Invalid parameter')
+          
 
     def upload(self):
         """
