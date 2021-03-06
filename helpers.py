@@ -45,7 +45,6 @@ def read_files(args):
         x = (x.fillna('')).replace("NaT", '')
         d = x.apply(lambda x: x.to_dict(), axis=1)
 
-
     else:
         try:
             seq = {k.id: str(k.seq) for k in SeqIO.parse(data["fa"], "fasta")}
@@ -60,7 +59,6 @@ def read_files(args):
                 i.update({"covv_sequence": seq[k] for k in i.values() if k in seq})
                 for i in metadata
             }
-            d = metadata
 
         except KeyError:
             print(f'{data["error"]} not found')
@@ -68,7 +66,7 @@ def read_files(args):
         except TypeError:
             print('file not found')
 
-    return d
+    return metadata
 
 
 def collate_fa(kwargs):
@@ -95,5 +93,4 @@ def collate_fa(kwargs):
         i.update({"covv_sequence": seq[k] for k in i.values() if k in seq})
         for i in metadata
     }
-    d = metadata
-    return d
+    return metadata
