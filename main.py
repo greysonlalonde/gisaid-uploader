@@ -1,7 +1,5 @@
-import requests, json
 from helpers import *
 from auth import *
-
 
 
 class GiSaid(object):
@@ -35,7 +33,7 @@ class GiSaid(object):
             self.data = read_files(self.args)
             self.authf = authfile()
         else:
-            if kwargs["authenticate"] == True:
+            if kwargs["authenticate"]:
                 self.kwargs = kwargs
                 self.args = None
                 self.data = authenticate(self.kwargs)
@@ -64,8 +62,7 @@ class GiSaid(object):
         >>> gs.upload()
         Upload successful
         """
-        
-        
+
         s = requests.Session()
         urls = "https://gpsapi.epicov.org/epi3/gps_api"
         resp1 = (
@@ -85,18 +82,18 @@ class GiSaid(object):
 
         time.sleep(0.1)
         resp2 = [logfile(x['covv_virus_name'],
-            s.post(
-                url=urls,
-                data=json.dumps(
-                    {
-                        "cmd": "data/hcov-19/upload",
-                        "sid": resp1.json()["sid"],
-                        "data": x,
-                        "submitter": x["submitter"],
-                    }
-                ),
-            ).json())
-            for x in self.data]
+                         s.post(
+                             url=urls,
+                             data=json.dumps(
+                                 {
+                                     "cmd": "data/hcov-19/upload",
+                                     "sid": resp1.json()["sid"],
+                                     "data": x,
+                                     "submitter": x["submitter"],
+                                 }
+                             ),
+                         ).json())
+                 for x in self.data]
 
         resp3 = s.post(url=urls, data=json.dumps({"cmd": "state/session/logoff"}))
         count = 0
@@ -107,7 +104,6 @@ class GiSaid(object):
                     count += 1
                 else:
                     bad += 1
+        print(resp3.json())
         print(f'{bad} failed uploads')
         print(f'{count} successful uploads')
-                
-                
