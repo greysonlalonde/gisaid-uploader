@@ -68,3 +68,32 @@ def read_files(args):
             print('file not found')
 
     return d
+                      
+                      
+                      
+def collate_fa(kwargs):
+    if kwargs['sub'] == True:
+        for file in glob.iglob('{}/**/*'.format(kwargs['fa'])):
+            with open('collated_fasta', 'a+') as f:
+                seq = {k.id: str(k.seq) for k in SeqIO.parse(file, "fasta")}
+                f.write('\n'+seq)
+    else:
+        for file in glob.iglob('{}/*'.format(kwargs['fa'])):
+            with open('collated_fasta.fa', 'a+') as f:
+                seq = {k.id: str(k.seq) for k in SeqIO.parse(file, "fasta")}
+                f.write('\n'+seq)
+                
+    seq = {k.id: str(k.seq) for k in SeqIO.parse('collated_fasta.fa', "fasta")}
+    
+    df = pd.read_csv(kwargs["csv"])
+    df['covv_collection_date'] = pd.to_datetime(df['covv_collection_date'])
+    df['covv_collection_date'] = df['covv_collection_date'].astype(str)
+
+
+    metadata = df.apply(lambda x: x.to_dict(), axis=1)
+    {
+        i.update({"covv_sequence": seq[k] for k in i.values() if k in seq})
+        for i in metadata
+    }
+    d = metadata
+    return d
