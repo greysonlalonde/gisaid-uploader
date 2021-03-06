@@ -1,28 +1,31 @@
-import json, hashlib, requests, secrets
+import hashlib
+import json
+import requests
+import secrets
 from configparser import ConfigParser
-
 
 config = ConfigParser()
 config.read('config.py')
 auth_path = config.get('FILES', 'AUTH_FILE')
 
+
 def authfile():
-    with open(auth_path, "r") as authfile:
-        authf = json.loads(authfile.read())
+    with open(auth_path, "r") as f:
+        authf = json.loads(f.read())
     return authf
+
 
 def authenticate(kwargs):
     """
     kwargs = 'authenticate=True,password=password,
     client_id=client_id, user=user,file=file'
     """
-    
 
     password = kwargs['password'].encode("utf8")
 
     salt = secrets.token_urlsafe(64)
     hashed = (
-        salt + "/" + sha512_hexdigest((salt + sha512_hexdigest(password)).encode("ascii"))
+            salt + "/" + sha512_hexdigest((salt + sha512_hexdigest(password)).encode("ascii"))
     )
 
     resp = requests.post(
@@ -52,10 +55,11 @@ def authenticate(kwargs):
 
         with open('config.py', 'w') as f:
             config.write(f)
-            
+
     else:
         resp = f'Authentication failed: {resp.json()["rc"]}'
     return print(resp)
+
 
 def sha512_hexdigest(inp):
     hasher = hashlib.sha512()
