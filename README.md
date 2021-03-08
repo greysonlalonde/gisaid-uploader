@@ -7,6 +7,11 @@
 
 2. Email GISAID & request a client ID
 
+Installation
+```python
+    >>> pip install gisaid
+```
+
 Authenticate once: 
 
 ```python
