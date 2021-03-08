@@ -1,6 +1,8 @@
 # gisaid-uploader
  Simplified uploads to GISAID
 
+<u><b>** This package is in development **</b></u>
+
 1. Register for a [GISAID](https://www.gisaid.org/registration/register/) account
 
 2. Email GISAID & request a client ID
