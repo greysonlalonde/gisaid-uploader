@@ -1,7 +1,7 @@
 from setuptools import setup
 
 setup(
-    name="gisaid",
+    name="gisaid-uploader",
     url="https://github.com/greysonlalonde/gisaid-uploader",
     download_url="https://github.com/greysonlalonde/gisaid-uploader/archive/v1.0.2-beta.tar.gz",
     author="Greyson R. LaLonde",
