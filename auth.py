@@ -2,15 +2,16 @@ import hashlib
 import json
 import requests
 import secrets
-import time
-from configparser import ConfigParser
-
-config = ConfigParser()
-config.read('config.py')
-auth_path = config.get('FILES', 'AUTH_FILE')
+from configparser import ConfigParser, NoSectionError
 
 
 def authfile():
+    try:
+        config = ConfigParser()
+        config.read('config.py')
+        auth_path = config.get('FILES', 'AUTH_FILE')
+    except NoSectionError:
+        print("config.py not found")
     with open(auth_path, "r") as f:
         authf = json.loads(f.read())
     return authf
