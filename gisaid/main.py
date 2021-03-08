@@ -71,16 +71,14 @@ class GiSaid(object):
         urls = "https://gpsapi.epicov.org/epi3/gps_api"
         resp1 = s.post(
             url=urls,
-            data=json.dumps(
-                {
-                    "cmd": "state/session/logon",
-                    "api": {"version": 1},
-                    "ctx": "CoV",
-                    "client_id": self.authf["client_id"],
-                    "auth_token": self.authf["client_token"],
+            json={
+                "cmd": "state/session/logon",
+                "api": {"version": 1},
+                "ctx": "CoV",
+                "client_id": self.authf["client_id"],
+                "auth_token": self.authf["client_token"]
                 }
-            ),
-        )
+            )
 
         time.sleep(0.01)
         try:
@@ -89,14 +87,13 @@ class GiSaid(object):
                     x["covv_virus_name"],
                     s.post(
                         url=urls,
-                        data=json.dumps(
-                            {
-                                "cmd": "data/hcov-19/upload",
-                                "sid": resp1.json()["sid"],
-                                "data": x,
-                                "submitter": x["submitter"],
-                            }
-                        ),
+                        json={
+                            "cmd": "data/hcov-19/upload",
+                            "sid": resp1.json()["sid"],
+                            "data": x,
+                            "submitter": x["submitter"],
+                        },
+
                     ).json(),
                 )
                 for x in self.data
@@ -105,7 +102,7 @@ class GiSaid(object):
             raise Exception(
                 "DataError: missing or corrupt data. Reference the upload examples."
             )
-        resp3 = s.post(url=urls, data=json.dumps({"cmd": "state/session/logoff"}))
+        resp3 = s.post(url=urls, json={"cmd": "state/session/logoff"})
         count = 0
         bad = 0
         with open("logfile.csv") as f:
