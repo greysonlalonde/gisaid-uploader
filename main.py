@@ -1,5 +1,6 @@
 from helpers import *
 from auth import *
+import time
 
 
 class GiSaid(object):
@@ -56,7 +57,7 @@ class GiSaid(object):
 
         Parameters
         ----------
-        args:
+        self:
             csv_path, fasta_path, jsoncred_path
 
 
