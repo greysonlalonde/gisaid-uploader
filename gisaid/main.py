@@ -42,12 +42,7 @@ class GiSaid(object):
             self.args = args
             self.data = collate_fa(self)
         else:
-            if kwargs["authenticate"]:
-                self.kwargs = kwargs
-                self.args = None
-                self.data = authenticate(self.kwargs)
-            else:
-                print("Invalid parameter")
+            print("Invalid parameter")
 
     def upload(self):
         """
