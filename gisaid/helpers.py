@@ -5,19 +5,19 @@ import re
 
 
 def logfile(*args):
-    if args[1]['rc'] != 'ok':
-        with open('logfile.csv', 'a+') as f:
-            line = str('\n' + f'{args[0]}, {args[1]["validation"]}')
+    if args[1]["rc"] != "ok":
+        with open("logfile.csv", "a+") as f:
+            line = str("\n" + f'{args[0]}, {args[1]["validation"]}')
             f.write(line)
     else:
-        with open('logfile.csv', 'a+') as f:
-            line = str('\n' + f'{args[0]}, success')
+        with open("logfile.csv", "a+") as f:
+            line = str("\n" + f"{args[0]}, success")
             f.write(line)
 
 
 def check_file(fname):
     d = {}
-    if 'collated' in fname[0]:
+    if "collated" in fname[0]:
         d.update(collated=True)
     else:
         d.update(collated=False)
@@ -38,23 +38,22 @@ def read_files(args):
     try:
         data = check_file(args)
     except IndexError:
-        raise
-    if data['collated']:
+        raise Exception("FileError: reference your files.")
+    if data["collated"]:
 
-        x = (pd.read_csv(data['csv'], index_col=0))
-        x.rename({'CollectionDate': 'covv_collection_date'}, axis=1, inplace=True)
-        x['covv_collection_date'] = pd.to_datetime(x['covv_collection_date'])
-        x['covv_collection_date'] = x['covv_collection_date'].astype(str)
-        x = (x.fillna('')).replace("NaT", '')
+        x = pd.read_csv(data["csv"], index_col=0)
+        x.rename({"CollectionDate": "covv_collection_date"}, axis=1, inplace=True)
+        x["covv_collection_date"] = pd.to_datetime(x["covv_collection_date"])
+        x["covv_collection_date"] = x["covv_collection_date"].astype(str)
+        x = (x.fillna("")).replace("NaT", "")
         metadata = x.apply(lambda x: x.to_dict(), axis=1)
-
     else:
         try:
             seq = {k.id: str(k.seq) for k in SeqIO.parse(data["fa"], "fasta")}
 
             df = pd.read_csv(data["csv"])
-            df['covv_collection_date'] = pd.to_datetime(df['covv_collection_date'])
-            df['covv_collection_date'] = df['covv_collection_date'].astype(str)
+            df["covv_collection_date"] = pd.to_datetime(df["covv_collection_date"])
+            df["covv_collection_date"] = df["covv_collection_date"].astype(str)
 
             metadata = df.apply(lambda x: x.to_dict(), axis=1)
             # noinspection PyStatementEffect
@@ -62,36 +61,32 @@ def read_files(args):
                 i.update({"covv_sequence": seq[k] for k in i.values() if k in seq})
                 for i in metadata
             }
-
         except KeyError:
             print(f'{data["error"]} not found')
-
         except TypeError:
-            print('file not found')
-
+            print("file not found")
     return metadata
 
 
 def collate_fa(kwargs):
-    if kwargs['sub']:
-        for file in glob.iglob('{}/**/*'.format(kwargs['fa'])):
-            with open('collated_fasta', 'a+') as f:
+    if kwargs["sub"]:
+        for file in glob.iglob("{}/**/*".format(kwargs["fa"])):
+            with open("collated_fasta", "a+") as f:
                 seq = {k.id: str(k.seq) for k in SeqIO.parse(file, "fasta")}
-                f.write('\n' + seq)
+                f.write("\n" + seq)
     else:
-        for file in glob.iglob('{}/*'.format(kwargs['fa'])):
-            with open('collated_fasta.fa', 'a+') as f:
+        for file in glob.iglob("{}/*".format(kwargs["fa"])):
+            with open("collated_fasta.fa", "a+") as f:
                 seq = {k.id: str(k.seq) for k in SeqIO.parse(file, "fasta")}
-                f.write('\n' + seq)
-
-    seq = {k.id: str(k.seq) for k in SeqIO.parse('collated_fasta.fa', "fasta")}
+                f.write("\n" + seq)
+    seq = {k.id: str(k.seq) for k in SeqIO.parse("collated_fasta.fa", "fasta")}
 
     df = pd.read_csv(kwargs["csv"])
-    df['covv_collection_date'] = pd.to_datetime(df['covv_collection_date'])
-    df['covv_collection_date'] = df['covv_collection_date'].astype(str)
+    df["covv_collection_date"] = pd.to_datetime(df["covv_collection_date"])
+    df["covv_collection_date"] = df["covv_collection_date"].astype(str)
 
     metadata = df.apply(lambda x: x.to_dict(), axis=1)
-    # noinspection PyStatementEffect
+
     {
         i.update({"covv_sequence": seq[k] for k in i.values() if k in seq})
         for i in metadata

@@ -33,13 +33,11 @@ class GiSaid(object):
             self.args = args
             self.data = read_files(self.args)
             self.authf = authfile()
-
         elif kwargs["authenticate"]:
             self.kwargs = kwargs
             self.args = None
             self.data = authenticate(self.kwargs)
-
-        elif kwargs['collate_fasta']:
+        elif kwargs["collate_fasta"]:
             self.kwargs = kwargs
             self.args = args
             self.data = collate_fa(self)
@@ -49,7 +47,7 @@ class GiSaid(object):
                 self.args = None
                 self.data = authenticate(self.kwargs)
             else:
-                print('Invalid parameter')
+                print("Invalid parameter")
 
     def upload(self):
         """
@@ -76,46 +74,52 @@ class GiSaid(object):
 
         s = requests.Session()
         urls = "https://gpsapi.epicov.org/epi3/gps_api"
-        resp1 = (
-            s.post(
-                url=urls,
-                data=json.dumps(
-                    {
-                        "cmd": "state/session/logon",
-                        "api": {"version": 1},
-                        "ctx": "CoV",
-                        "client_id": self.authf["client_id"],
-                        "auth_token": self.authf["client_token"],
-                    }
-                ),
-            )
+        resp1 = s.post(
+            url=urls,
+            data=json.dumps(
+                {
+                    "cmd": "state/session/logon",
+                    "api": {"version": 1},
+                    "ctx": "CoV",
+                    "client_id": self.authf["client_id"],
+                    "auth_token": self.authf["client_token"],
+                }
+            ),
         )
 
-        time.sleep(0.1)
-        resp2 = [logfile(x['covv_virus_name'],
-                         s.post(
-                             url=urls,
-                             data=json.dumps(
-                                 {
-                                     "cmd": "data/hcov-19/upload",
-                                     "sid": resp1.json()["sid"],
-                                     "data": x,
-                                     "submitter": x["submitter"],
-                                 }
-                             ),
-                         ).json())
-                 for x in self.data]
-
+        time.sleep(0.01)
+        try:
+            resp2 = [
+                logfile(
+                    x["covv_virus_name"],
+                    s.post(
+                        url=urls,
+                        data=json.dumps(
+                            {
+                                "cmd": "data/hcov-19/upload",
+                                "sid": resp1.json()["sid"],
+                                "data": x,
+                                "submitter": x["submitter"],
+                            }
+                        ),
+                    ).json(),
+                )
+                for x in self.data
+            ]
+        except TypeError:
+            raise Exception(
+                "DataError: missing or corrupt data. Reference the upload examples."
+            )
         resp3 = s.post(url=urls, data=json.dumps({"cmd": "state/session/logoff"}))
         count = 0
         bad = 0
-        with open('../logfile.csv') as f:
+        with open("../logfile.csv") as f:
             for line in f:
-                if 'success' in line:
+                if "success" in line:
                     count += 1
                 else:
                     bad += 1
         print([i for i in resp2])
         print(resp3.json())
-        print(f'{bad} failed uploads')
-        print(f'{count} successful uploads')
+        print(f"{bad} failed uploads")
+        print(f"{count} successful uploads")
