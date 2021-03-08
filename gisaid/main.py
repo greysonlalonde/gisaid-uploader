@@ -5,13 +5,13 @@ import time
 
 class GiSaid(object):
     """
-    Class for uploading & downloading to GISAID.
+    Class for uploading & downloading to & from GISAID.
     Provides a route for automation or back-end integration.
 
     Parameters
     ----------
     args:
-        csv_path, fasta_path, jsoncred_path or authentication info
+        csv_path, fasta_path or authentication info
 
 
     Returns
