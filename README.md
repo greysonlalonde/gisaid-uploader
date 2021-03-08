@@ -1,5 +1,5 @@
 # gisaid-uploader
- Simplified uploads to GISAID
+ Simplified & efficient GISAID interactions.
 
 <u><b>** This package is in development **</b></u>
 
