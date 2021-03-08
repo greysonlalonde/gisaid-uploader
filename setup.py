@@ -9,7 +9,7 @@ with open(path.join(this_directory, 'README.md'), encoding='utf-8') as f:
 setup(
     name="gisaid",
     url="https://github.com/greysonlalonde/gisaid-uploader",
-    download_url="https://github.com/greysonlalonde/gisaid-uploader/archive/v1.0.2-beta.tar.gz",
+    download_url="https://github.com/greysonlalonde/gisaid-uploader/archive/1.0.3b0.tar.gz",
     author="Greyson R. LaLonde",
     author_email="greyson.r.lalonde@wmich.edu",
     packages=["gisaid"],
