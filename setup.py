@@ -7,7 +7,7 @@ setup(
     author_email='greyson.r.lalonde@wmich.edu',
     packages=['gisaid'],
     # Needed for dependencies
-    install_requires=['pandas, numpy, biopython, requests'],
+    install_requires=['pandas', 'numpy', 'biopython', 'requests'],
     version='v1.0.1-beta',
     license='MIT',
     description='Simplified and efficient GISAID interactions.',
