@@ -28,9 +28,9 @@ def check_file(fname):
             elif re.search("\.fa$", i, flags=re.IGNORECASE):
                 d["fa"] = i
             else:
-                pass
+                raise Exception("FileError: improper file types.")
     except IndexError:
-        raise
+        raise Exception("DataError: missing or corrupt data. Reference the upload examples.")
     return d
 
 
@@ -62,9 +62,9 @@ def read_files(args):
                 for i in metadata
             }
         except KeyError:
-            print(f'{data["error"]} not found')
+            raise Exception("DataError: missing or corrupt data. Reference the upload examples.")
         except TypeError:
-            print("file not found")
+            raise Exception("DataError: missing or corrupt data. Reference the upload examples.")
     return metadata
 
 
