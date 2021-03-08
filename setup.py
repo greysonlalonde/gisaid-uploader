@@ -1,7 +1,7 @@
 from setuptools import setup
 
 setup(
-    name='gisaid',
+    name='gisaid-uploader',
     url='https://github.com/greysonlalonde/gisaid-uploader',
     download_url = 'https://github.com/greysonlalonde/gisaid-uploader/archive/v1.0.1-beta.tar.gz',
     author='Greyson R. LaLonde',
@@ -10,6 +10,4 @@ setup(
     # Needed for dependencies
     install_requires=['pandas', 'numpy', 'biopython', 'requests'],
     version='v1.0.1-beta',
-    license='MIT',
-    description='Simplified and efficient GISAID interactions.',
-)
+    license='MIT')
