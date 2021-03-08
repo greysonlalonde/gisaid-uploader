@@ -125,7 +125,7 @@ dmypy.json
 .pyre/
 *.ipynb
 cov.fa
-docs/config.py
+config.py
 logfile.csv
 test_upload2.csv
 testlims.txt
