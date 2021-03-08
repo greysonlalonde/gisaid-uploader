@@ -127,6 +127,11 @@ dmypy.json
 cov.fa
 config.py
 logfile.csv
-test_counter.txt
 test_upload2.csv
 testlims.txt
+.idea/modules.xml
+.idea/gisaid-uploader.iml
+.idea/inspectionProfiles/profiles_settings.xml
+.idea/misc.xml
+.idea/vcs.xml
+.idea/workspace.xml
