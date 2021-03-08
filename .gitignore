@@ -137,3 +137,8 @@ testlims.txt
 .idea/workspace.xml
 test_counter.txt
 .pypirc
+sp/make.bat
+sp/Makefile
+sp/source/conf.py
+sp/source/content.rst
+sp/source/index.rst
