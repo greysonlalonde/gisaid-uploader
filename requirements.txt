@@ -1,4 +1,4 @@
-requests==2.21.0
-json==2.0.9
+requests
+json
 pandas==1.2.1
 biopython>=1.78
