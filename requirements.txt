@@ -1,4 +1,4 @@
 requests
 json
-pandas==1.2.1
-biopython>=1.78
+pandas
+biopython

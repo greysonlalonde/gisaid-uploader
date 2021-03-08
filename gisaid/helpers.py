@@ -6,11 +6,11 @@ import re
 
 def logfile(*args):
     if args[1]['rc'] != 'ok':
-        with open('../logfile.csv', 'a+') as f:
+        with open('logfile.csv', 'a+') as f:
             line = str('\n' + f'{args[0]}, {args[1]["validation"]}')
             f.write(line)
     else:
-        with open('../logfile.csv', 'a+') as f:
+        with open('logfile.csv', 'a+') as f:
             line = str('\n' + f'{args[0]}, success')
             f.write(line)
 
@@ -30,7 +30,7 @@ def check_file(fname):
             else:
                 pass
     except IndexError:
-        raise "File Error"
+        raise
     return d
 
 
@@ -38,7 +38,7 @@ def read_files(args):
     try:
         data = check_file(args)
     except IndexError:
-        return "File Error"               
+        raise
     if data['collated']:
 
         x = (pd.read_csv(data['csv'], index_col=0))
@@ -46,7 +46,7 @@ def read_files(args):
         x['covv_collection_date'] = pd.to_datetime(x['covv_collection_date'])
         x['covv_collection_date'] = x['covv_collection_date'].astype(str)
         x = (x.fillna('')).replace("NaT", '')
-        d = x.apply(lambda x: x.to_dict(), axis=1)
+        metadata = x.apply(lambda x: x.to_dict(), axis=1)
 
     else:
         try:

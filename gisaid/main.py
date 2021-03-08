@@ -85,7 +85,7 @@ class GiSaid(object):
                         "api": {"version": 1},
                         "ctx": "CoV",
                         "client_id": self.authf["client_id"],
-                        "auth_token": self.authf["auth_token"],
+                        "auth_token": self.authf["client_token"],
                     }
                 ),
             )
