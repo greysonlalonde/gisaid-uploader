@@ -30,12 +30,15 @@ def check_file(fname):
             else:
                 pass
     except IndexError:
-        print("File Error")
+        raise "File Error"
     return d
 
 
 def read_files(args):
-    data = check_file(args)
+    try:
+        data = check_file(args)
+    except IndexError:
+        return "File Error"               
     if data['collated']:
 
         x = (pd.read_csv(data['csv'], index_col=0))

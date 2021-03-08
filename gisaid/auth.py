@@ -8,10 +8,10 @@ from configparser import ConfigParser, NoSectionError
 def authfile():
     try:
         config = ConfigParser()
-        config.read('config.py')
+        config.read(r'C:\Users\LaLondeG1\Documents\GitHub\gisaid_uploader\gisaid-uploader\docs\config.py')
         auth_path = config.get('FILES', 'AUTH_FILE')
     except NoSectionError:
-        print("config.py not found")
+        raise 
     with open(auth_path, "r") as f:
         authf = json.loads(f.read())
     return authf
