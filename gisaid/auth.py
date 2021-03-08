@@ -55,7 +55,7 @@ def authenticate(kwargs):
         config.add_section('FILES')
         config.set('FILES', 'AUTH_FILE', kwargs['file'])
 
-        with open('config.py', 'w') as f:
+        with open('../config.py', 'w') as f:
             config.write(f)
 
     else:

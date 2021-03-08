@@ -6,11 +6,11 @@ import re
 
 def logfile(*args):
     if args[1]['rc'] != 'ok':
-        with open('logfile.csv', 'a+') as f:
+        with open('../logfile.csv', 'a+') as f:
             line = str('\n' + f'{args[0]}, {args[1]["validation"]}')
             f.write(line)
     else:
-        with open('logfile.csv', 'a+') as f:
+        with open('../logfile.csv', 'a+') as f:
             line = str('\n' + f'{args[0]}, success')
             f.write(line)
 

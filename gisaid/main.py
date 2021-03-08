@@ -1,5 +1,5 @@
-from helpers import *
-from auth import *
+from gisaid.helpers import *
+from gisaid.auth import *
 import time
 
 
@@ -109,7 +109,7 @@ class GiSaid(object):
         resp3 = s.post(url=urls, data=json.dumps({"cmd": "state/session/logoff"}))
         count = 0
         bad = 0
-        with open('logfile.csv') as f:
+        with open('../logfile.csv') as f:
             for line in f:
                 if 'success' in line:
                     count += 1
