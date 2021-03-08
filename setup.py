@@ -16,6 +16,7 @@ setup(
     install_requires=["pandas", "numpy", "biopython", "requests"],
     version="v1.0.1-beta",
     license="MIT",
+    description='Simplified & efficient GISAID interactions.',
     long_description=long_description,
     long_description_content_type='text/markdown'
 
