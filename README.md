@@ -1,6 +1,6 @@
 gisaid-uploader
 ===========================
-![alt text](https://img.shields.io/badge/pypi-1.0.3b0-blue)  
+[![alt text](https://img.shields.io/badge/pypi-1.0.3b0-blue)](https://pypi.org/project/gisaid/)
   
  Simplified & efficient GISAID interactions.
 
