@@ -1,6 +1,6 @@
 gisaid-uploader
 ===========================
-[![alt text](https://img.shields.io/badge/pypi-1.0.3b0-blue)](https://pypi.org/project/gisaid/) [![alt text](https://img.shields.io/badge/license-MIT-green)](https://pypi.org/project/gisaid/)
+[![alt text](https://img.shields.io/badge/pypi-1.0.3b0-blue)](https://pypi.org/project/gisaid/) [![alt text](https://img.shields.io/badge/license-MIT-green)](https://github.com/greysonlalonde/gisaid-uploader/blob/main/LICENSE)
   
  Simplified & efficient GISAID interactions.
 
