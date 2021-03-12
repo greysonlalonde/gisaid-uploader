@@ -8,7 +8,7 @@ from configparser import ConfigParser, NoSectionError
 def authfile():
     try:
         config = ConfigParser()
-        config.read(r"config.py")
+        config.read(r"docs/config.py")
         auth_path = config.get("FILES", "AUTH_FILE")
     except NoSectionError:
         raise Exception("ConfigFileError: reference your config file.")
