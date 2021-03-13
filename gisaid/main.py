@@ -42,7 +42,7 @@ class GiSaid(object):
             self.args = args
             self.data = collate_fa(self)
         else:
-            print("Invalid parameter")
+            raise Exception("InputError: invalid parameter.")
 
     def upload(self):
         """
