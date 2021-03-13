@@ -46,3 +46,13 @@ Collated CSV:
     >>> x.upload()
     "Upload successful"
 ```
+
+Collate a folder of fasta files and a CSV:
+
+```python
+    >>> import gisaid as gs
+    >>> x = gs.GiSaid("upload.csv",'fasta/folder', 
+                        collate_fasta=True)
+    >>> x.upload()
+    "Upload successful"
+```
