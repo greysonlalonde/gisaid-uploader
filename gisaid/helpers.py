@@ -1,5 +1,6 @@
 import pandas as pd
 from Bio import SeqIO
+from exceptions import *
 import glob
 import re
 
@@ -28,9 +29,9 @@ def check_file(fname):
             elif re.search("\.fa$", i, flags=re.IGNORECASE):
                 d["fa"] = i
             else:
-                raise Exception("FileError: improper file types.")
+                raise FileError
     except IndexError:
-        raise Exception("DataError: missing or corrupt data. Reference the upload examples.")
+        raise DataError
     return d
 
 
@@ -62,9 +63,9 @@ def read_files(args):
                 for i in metadata
             }
         except KeyError:
-            raise Exception("DataError: missing or corrupt data. Reference the upload examples.")
+            raise DataError
         except TypeError:
-            raise Exception("DataError: missing or corrupt data. Reference the upload examples.")
+            raise DataError
     return metadata
 
 
