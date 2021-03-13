@@ -32,8 +32,7 @@ CSV + fasta file:
 
 ```python
     >>> import gisaid as gs
-    >>> files = ["upload.csv", "fasta.fa"]
-    >>> x = gs.GiSaid(files)
+    >>> x = gs.GiSaid("upload.csv", "fasta.fa")
     >>> x.upload()
     "Upload successful"
 ```
@@ -43,8 +42,7 @@ Collated CSV:
 
 ```python
     >>> import gisaid as gs
-    >>> files = ["collated", "upload.csv"]
-    >>> x = gs.GiSaid(files)
+    >>> x = gs.GiSaid("collated", "upload.csv")
     >>> x.upload()
     "Upload successful"
 ```
