@@ -62,7 +62,7 @@ class GiSaid(object):
 
         Examples
         ----------
-        >>> gs = GiSaid(csv_file, fasta_file, jsoncred_file)
+        >>> gs = GiSaid(csv_file, fasta_file)
         >>> gs.upload()
         Upload successful
         """
