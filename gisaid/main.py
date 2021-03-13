@@ -99,9 +99,8 @@ class GiSaid(object):
                 for x in self.data
             ]
         except TypeError:
-            raise Exception(
-                "DataError: missing or corrupt data. Reference the upload examples."
-            )
+            raise DataError
+
         resp3 = s.post(url=urls, json={"cmd": "state/session/logoff"})
         count = 0
         bad = 0
