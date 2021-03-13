@@ -23,3 +23,12 @@ class FileError(Exception):
 
     def __str__(self):
         return self.error
+
+
+class ConfigFileError(Exception):
+
+    def __init__(self):
+        self.error = "ConfigFileError: reference your config file."
+
+    def __str__(self):
+        return self.error

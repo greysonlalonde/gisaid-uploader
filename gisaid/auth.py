@@ -2,6 +2,7 @@ import hashlib
 import json
 import requests
 import secrets
+from gisaid.exceptions import *
 from configparser import ConfigParser, NoSectionError
 
 
@@ -11,7 +12,7 @@ def authfile():
         config.read(r"docs/config.py")
         auth_path = config.get("FILES", "AUTH_FILE")
     except NoSectionError:
-        raise Exception("ConfigFileError: reference your config file.")
+        raise ConfigFileError
     with open(auth_path, "r") as f:
         authf = json.loads(f.read())
     return authf

@@ -39,7 +39,7 @@ def read_files(args):
     try:
         data = check_file(args)
     except IndexError:
-        raise Exception("FileError: reference your files.")
+        raise FileError
     if data["collated"]:
 
         x = pd.read_csv(data["csv"], index_col=0)
