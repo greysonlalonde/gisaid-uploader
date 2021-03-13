@@ -142,3 +142,7 @@ sp/Makefile
 sp/source/conf.py
 sp/source/content.rst
 sp/source/index.rst
+docs/make.bat
+docs/Makefile
+docs/source/index.rst
+docs/source/conf.py
