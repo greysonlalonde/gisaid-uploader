@@ -51,7 +51,7 @@ Collate CSV + folder of fasta files:
 
 ```python
     >>> import gisaid as gs
-    >>> x = gs.GiSaid("upload.csv",'fasta/folder', 
+    >>> x = gs.GiSaid("upload.csv","fasta/folder", 
                         collate_fasta=True)
     >>> x.upload()
     "Upload successful"
