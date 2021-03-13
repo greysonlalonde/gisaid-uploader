@@ -47,7 +47,7 @@ Collated CSV:
     "Upload successful"
 ```
 
-Collate a folder of fasta files and a CSV:
+Collate CSV + folder of fasta files:
 
 ```python
     >>> import gisaid as gs
