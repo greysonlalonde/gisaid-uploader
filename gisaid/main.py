@@ -110,7 +110,5 @@ class GiSaid(object):
                     count += 1
                 else:
                     bad += 1
-        print([i for i in resp2])
-        print(resp3.json())
         print(f"{bad} failed uploads")
         print(f"{count} successful uploads")
