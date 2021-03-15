@@ -8,7 +8,8 @@ import re
 def logfile(*args):
     if args[1]["rc"] != "ok":
         with open("logfile.csv", "a+") as f:
-            line = str("\n" + f'{args[0]}, {args[1]["validation"]}')
+            reason = str((args[1]["validation"])).replace(",", "")
+            line = str("\n" + f'{args[0]}, {reason}')
             f.write(line)
     else:
         with open("logfile.csv", "a+") as f:
